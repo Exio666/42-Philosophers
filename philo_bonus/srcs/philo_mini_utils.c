@@ -6,7 +6,7 @@
 /*   By: bsavinel <bsavinel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/23 16:52:20 by bsavinel          #+#    #+#             */
-/*   Updated: 2022/03/02 15:33:23 by bsavinel         ###   ########.fr       */
+/*   Updated: 2022/03/04 12:57:28 by bsavinel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,12 +52,11 @@ void	_usleep(size_t time, t_global *global)
 	size_t	sleep;
 
 	sleep = give_utime() + time;
-	(void)global;
 	if (sleep > 0)
 	{
-		while (give_utime() / 100 < sleep / 100)
+		while (give_utime() < sleep
+			&& check_death(&global->philo)
+			&& give_utime() <= global->philo.date_of_death)
 			usleep(100);
-		while (give_utime() < sleep)
-			usleep(10);
 	}
 }
